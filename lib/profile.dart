@@ -16,6 +16,7 @@ import 'model/product.dart';
 import 'model/products_repository.dart';
 import 'package:shrine/services/firebase_auth_methods.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:shrine/services/storage.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -87,6 +88,16 @@ class _ProfilePageState extends State<ProfilePage> {
   // FirebaseAuth auth = FirebaseAuth.instance;
   final user = FirebaseAuth.instance.currentUser;
   String imageUrl = '';
+  // String defaulturl = '';
+  // Future<String> loadImg() async {
+  //   final storageRef = FirebaseStorage.instance.ref();
+  //   final defaultUrl =
+  //       await storageRef.child('userImage/defaultIMG.png').getDownloadURL();
+  //   setState(() {
+  //     defaulturl = defaultUrl;
+  //   });
+  //   return defaulturl
+  // }
   // FirebaseStorage storage = FirebaseStorage.instance;
   // File? _photo;
   // final ImagePicker _picker = ImagePicker();
@@ -164,13 +175,14 @@ class _ProfilePageState extends State<ProfilePage> {
               //     AsyncSnapshot
               //   ),
               // ))
-              imageUrl == ''
-                  ? IconButton(
-                      onPressed: () {
-                        pickUploadImage();
-                      },
-                      icon: Icon(Icons.person))
-                  : Image.network(imageUrl),
+              // imageUrl == ''
+              //     ? IconButton(
+              //         onPressed: () {
+              //           pickUploadImage();
+              //         },
+              //         icon: Icon(Icons.person))
+              //     : Image.network(imageUrl),
+              // Image.network(),
 
               Text(
                 '<${user!.uid}>',
