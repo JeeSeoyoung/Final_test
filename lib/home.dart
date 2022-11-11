@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:shrine/detailPage.dart';
 
 import 'model/product.dart';
 import 'model/products_repository.dart';
 import 'package:shrine/services/firebase_auth_methods.dart';
+import 'package:shrine/provider/ApplicationState.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -92,6 +95,18 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
+      body: Container(
+        child: Consumer<ApplicationState>(
+          builder: (context, appState, _) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ProductList(
+                productlist: appState.productDtail,
+              ),
+            ],
+          ),
+        ),
+      ),
       // TODO: Add a grid view (102)
       // body:
       // GridView.count(
@@ -173,21 +188,59 @@ ListTile _buildMenu(IconData icon, String label, BuildContext context) {
       }
       // Navigator.pop(context);
     },
-    // title: Row(
-    //   children: [
-    //     SizedBox(width: 10.0),
-    //     Icon(
-    //       icon,
-    //       color: Colors.blue,
-    //     ),
-    //     SizedBox(
-    //       width: 30.0,
-    //     ),
-    //     Text(label)
-    //   ],
-    // ),
-    // onTap: () {
-    //   Navigator.pop(context);
-    // },
   );
+}
+
+class ProductList extends StatefulWidget {
+  const ProductList({Key? key, required this.productlist}) : super(key: key);
+  final List<ProductDetail> productlist;
+
+  @override
+  State<ProductList> createState() => _ProductListState();
+}
+
+class _ProductListState extends State<ProductList> {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: GridView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        physics: ScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 8.0 / 9.0,
+        ),
+        itemCount: widget.productlist.length,
+        itemBuilder: ((context, index) {
+          return Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                AspectRatio(
+                  aspectRatio: 20 / 11,
+                  child: Image.network(widget.productlist[index].productImgUrl),
+                ),
+                Text(widget.productlist[index].productName),
+                Text('\$  ${widget.productlist[index].price}'),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailPage(widget.productlist[index].docID)));
+                    },
+                    child: Text(
+                      'more',
+                      style: TextStyle(color: Colors.blue),
+                    ))
+              ],
+            ),
+          );
+        }),
+      ),
+    );
+  }
 }

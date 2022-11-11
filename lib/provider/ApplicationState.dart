@@ -45,80 +45,12 @@ class ApplicationState extends ChangeNotifier {
       notifyListeners();
     }
 
-    //login
-    // Future<UserCredential?> LoginWithGoogle(BuildContext context) async {
-    //   GoogleSignInAccount? user = await FirebaseAuthMethods.login();
-
-    //   GoogleSignInAuthentication? googleAuth = await user!.authentication;
-    //   var credential = GoogleAuthProvider.credential(
-    //       accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
-
-    //   UserCredential? userCredential =
-    //       await FirebaseAuth.instance.signInWithCredential(credential);
-
-    //   if (userCredential != null) {
-    //     print('login success ===> Google');
-    //     print(userCredential);
-
-    //     Navigator.pop(context);
-    //   } else {
-    //     print('login FAIL');
-    //   }
-    //   return userCredential;
-    // }
-
-    // Future<void> signInAnonymously(BuildContext context) async {
-    //   try {
-    //     await FirebaseAuth.instance.signInAnonymously();
-    //     Navigator.pop(context);
-    //   } on FirebaseAuthException catch (e) {
-    //     print('Anonymously Sign In FAIL');
-    //   }
-    // }
-
-    // //Create Users Collection
-    // Future CreateUserCollection() async {
-    //   final user = FirebaseAuth.instance.currentUser;
-
-    //   if (user != null) {
-    //     Reference ref = FirebaseStorage.instance.ref().child('profilepic.jpg');
-    //     final name = user.displayName;
-    //     final email = user.email;
-    //     final uid = user.uid;
-    //     final imageUrl = await ref.getDownloadURL();
-    //     // final photoURL = await user.updatePhotoURL(url);
-
-    //     final docUser = FirebaseFirestore.instance.collection('users').doc(uid);
-
-    //     final json = {
-    //       'name': name,
-    //       'email': email,
-    //       'status_message': 'I promise to take the test honestly before GOD .',
-    //       'uid': uid,
-    //       'imageUrl': imageUrl,
-    //       // 'photoURL': photoURL,
-    //     };
-
-    //     await docUser.set(json);
-    //   } else {
-    //     Reference ref =
-    //         FirebaseStorage.instance.ref().child('userImage/defaultIMG.png');
-    //     final docUser = FirebaseFirestore.instance.collection('users').doc();
-    //     final imageUrl = await ref.getDownloadURL();
-    //     final json = {
-    //       'status_message': 'I promise to take the test honestly before GOD .',
-    //       'uid': docUser.id,
-    //       'imageUrl': imageUrl,
-    //     };
-    //     await docUser.set(json);
-    //   }
-    // }
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         print('seoyoung sign in!!!');
         _productDetailSubscription = FirebaseFirestore.instance
             .collection('productDetail')
-            // .orderBy('price', descending: true)
+            .orderBy('price', descending: false)
             .snapshots()
             .listen((snapshot) {
           _productDetail = [];
@@ -130,6 +62,7 @@ class ApplicationState extends ChangeNotifier {
                 price: document.data()['price'] as int,
                 description: document.data()['description'] as String,
                 userId: document.data()['userId'] as String,
+                docID: document.id as String,
               ),
             );
           }
@@ -142,23 +75,6 @@ class ApplicationState extends ChangeNotifier {
       }
       notifyListeners();
     });
-
-    // Future<DocumentReference> createProductDetail(
-    //     String name, String url, int price, String description) {
-    //   if (FirebaseAuth.instance.currentUser!.isAnonymous != false) {
-    //     throw Exception('Must be logged in');
-    //   }
-    //   return FirebaseFirestore.instance
-    //       .collection('productDetail')
-    //       .add(<String, dynamic>{
-    //     'ImgUrl': url,
-    //     'name': name,
-    //     'price': price,
-    //     'description': description,
-    //     'timestamp': DateTime.now().millisecondsSinceEpoch,
-    //     'userId': FirebaseAuth.instance.currentUser!.uid,
-    //   });
-    // }
   }
 
   Future<DocumentReference> createProductDetail(
@@ -188,10 +104,12 @@ class ProductDetail {
     required this.price,
     required this.description,
     required this.userId,
+    required this.docID,
   });
   final String productImgUrl;
   final String productName;
   final int price;
   final String description;
   final String userId;
+  final String docID;
 }
