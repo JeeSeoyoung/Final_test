@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -45,11 +46,15 @@ class LoginPage extends StatelessWidget {
 
   Future AddUser() async {
     final user = FirebaseAuth.instance.currentUser;
+
     if (user != null) {
       // Name, email address, and profile photo URL
+      Reference ref = FirebaseStorage.instance.ref().child('profilepic.jpg');
       final name = user.displayName;
       final email = user.email;
       final uid = user.uid;
+      // final url = await ref.getDownloadURL();
+      // final photoURL = await user.updatePhotoURL(url);
 
       final docUser = FirebaseFirestore.instance.collection('users').doc(uid);
 
@@ -58,6 +63,7 @@ class LoginPage extends StatelessWidget {
         'email': email,
         'status_message': 'I promise to take the test honestly before GOD .',
         'uid': uid,
+        // 'photoURL': photoURL,
       };
 
       await docUser.set(json);

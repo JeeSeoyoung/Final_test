@@ -14,7 +14,10 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:shrine/firebase_options.dart';
+import 'package:shrine/provider/ApplicationState.dart';
+import 'package:provider/provider.dart';
 
 import 'app.dart';
 
@@ -23,7 +26,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const ShrineApp());
+  // runApp(const ShrineApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => ApplicationState(),
+    builder: ((context, child) => const ShrineApp()),
+  ));
 }
 
 // class ApplicationState extends ChangeNotifier {
@@ -39,4 +46,3 @@ void main() async {
 //     );
 //   }
 // }
-

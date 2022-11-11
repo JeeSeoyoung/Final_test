@@ -65,6 +65,7 @@ class HomePage extends StatelessWidget {
   // TODO: Add a variable for Category (104)
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       // TODO: Add app bar (102)
       appBar: AppBar(
@@ -83,8 +84,10 @@ class HomePage extends StatelessWidget {
               semanticLabel: 'Add',
             ),
             onPressed: () {
-              print('Add button');
-              Navigator.pushNamed(context, '/add');
+              if (user!.isAnonymous == false) {
+                print('Add button');
+                Navigator.pushNamed(context, '/add');
+              }
             },
           ),
         ],
