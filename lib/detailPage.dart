@@ -109,6 +109,10 @@ class DetailPage extends StatelessWidget {
                             height: 30,
                           ),
                           Text('creator: <${documentSnapshot['userId']}>'),
+                          Text(
+                              '${(documentSnapshot['timestamp'] as Timestamp).toDate()} Created'),
+                          // printModifyTimeStamp();
+                          ModifiedTimestamp(documentSnapshot: documentSnapshot),
                         ],
                       ),
                     )
@@ -120,6 +124,35 @@ class DetailPage extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class ModifiedTimestamp extends StatelessWidget {
+  ModifiedTimestamp({
+    Key? key,
+    required this.documentSnapshot,
+  }) : super(key: key);
+
+  final DocumentSnapshot<Object?> documentSnapshot;
+  DateTime? modifiedDateTimeStamp;
+  void printModifyTimeStamp() {
+    Map<String, dynamic> dataMap =
+        documentSnapshot.data() as Map<String, dynamic>;
+    if (dataMap.containsKey('modifyTimeStamp')) {
+      modifiedDateTimeStamp =
+          (documentSnapshot['modifyTimeStamp'] as Timestamp).toDate();
+    } else {
+      print('haha....');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    printModifyTimeStamp();
+    return modifiedDateTimeStamp != null
+        ? Text(
+            '${(documentSnapshot['modifyTimeStamp'] as Timestamp).toDate()} Modified')
+        : SizedBox();
   }
 }
 
