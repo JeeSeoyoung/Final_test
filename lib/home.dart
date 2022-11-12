@@ -8,7 +8,7 @@ import 'package:shrine/detailPage.dart';
 import 'package:shrine/services/firebase_auth_methods.dart';
 import 'package:shrine/provider/ApplicationState.dart';
 
-const List<String> list = <String>['Desc', 'Asc'];
+const List<String> list = <String>['DESC', 'ASC'];
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -121,7 +121,7 @@ class _ProductListState extends State<ProductList> {
                     }).toList(),
                     onChanged: (String? value) {
                       setState(() {
-                        isDescding = (value == 'Desc') ? true : false;
+                        isDescding = (value == 'DESC') ? true : false;
                         dropdownValue = value!;
                         print(isDescding);
                       });

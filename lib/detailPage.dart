@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shrine/editProduct.dart';
 
 import 'model/product.dart';
 import 'model/products_repository.dart';
@@ -34,6 +35,11 @@ class DetailPage extends StatelessWidget {
           IconButton(
               onPressed: () {
                 // print(documentSnapshot.id);
+                // updateDoc(documentSnapshot.id);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditProduct(documentSnapshot)));
               },
               icon: Icon(Icons.create)),
           IconButton(
@@ -46,10 +52,71 @@ class DetailPage extends StatelessWidget {
               icon: Icon(Icons.delete)),
         ],
       ),
-      body: Column(
+      body: ListView(
         children: [
-          Text(documentSnapshot['name']),
-          Text(documentSnapshot.id),
+          Column(
+            children: [
+              Image.network(
+                documentSnapshot['ImgUrl'],
+                fit: BoxFit.fitHeight,
+              ),
+              Container(
+                padding: EdgeInsets.zero,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                documentSnapshot['name'],
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.thumb_up,
+                                        color: Colors.red,
+                                      )),
+                                  Text(
+                                    '0',
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          Text(
+                            '\$ ${documentSnapshot['price']}',
+                            style: TextStyle(fontWeight: FontWeight.w300),
+                          ),
+                          Divider(
+                            thickness: 3,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(documentSnapshot['description']),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Text('creator: <${documentSnapshot['userId']}>'),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

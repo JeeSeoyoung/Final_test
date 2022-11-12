@@ -89,7 +89,7 @@ class ApplicationState extends ChangeNotifier {
       'name': name,
       'price': price,
       'description': description,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'timestamp': FieldValue.serverTimestamp(),
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
   }
