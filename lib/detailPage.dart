@@ -17,15 +17,15 @@ import 'package:shrine/provider/ApplicationState.dart';
 import 'dart:io';
 
 class DetailPage extends StatelessWidget {
-  String docId;
+  late DocumentSnapshot documentSnapshot;
+  // String docId;
 
   final user = FirebaseAuth.instance.currentUser;
-  DetailPage(this.docId, {Key? key}) : super(key: key);
+
+  DetailPage(this.documentSnapshot, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var documentSnapshot =
-        FirebaseFirestore.instance.collection('productDetail').get();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -33,19 +33,25 @@ class DetailPage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
               onPressed: () {
-                print(documentSnapshot);
+                // print(documentSnapshot.id);
               },
               icon: Icon(Icons.create)),
           IconButton(
               onPressed: () {
-                // if(user.uid==documentSnapshot.){}
-                deleteDoc(docId);
-                Navigator.pop(context);
+                if (user!.uid == documentSnapshot['userId']) {
+                  deleteDoc(documentSnapshot.id);
+                  Navigator.pop(context);
+                }
               },
               icon: Icon(Icons.delete)),
         ],
       ),
-      body: Text(docId),
+      body: Column(
+        children: [
+          Text(documentSnapshot['name']),
+          Text(documentSnapshot.id),
+        ],
+      ),
     );
   }
 }
