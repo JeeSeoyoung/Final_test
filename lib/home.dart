@@ -65,32 +65,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-// class DropdownMenu extends StatefulWidget {
-//   const DropdownMenu({Key? key}) : super(key: key);
-
-//   @override
-//   State<DropdownMenu> createState() => _DropdownMenuState();
-// }
-
-// class _DropdownMenuState extends State<DropdownMenu> {
-//   String dropdownValue = list.first;
-//   @override
-//   Widget build(BuildContext context) {
-//     return DropdownButton(
-//         value: dropdownValue,
-//         items: list.map<DropdownMenuItem<String>>((String value) {
-//           return DropdownMenuItem<String>(value: value, child: Text(value));
-//         }).toList(),
-//         onChanged: (String? value) {
-//           setState(() {
-//             isDescding = (value == 'Desc') ? true : false;
-//             dropdownValue = value!;
-//             print(isDescding);
-//           });
-//         });
-//   }
-// }
-
 class ProductList extends StatefulWidget {
   const ProductList({Key? key, required this.productlist}) : super(key: key);
   final List<ProductDetail> productlist;

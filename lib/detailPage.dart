@@ -36,10 +36,12 @@ class DetailPage extends StatelessWidget {
               onPressed: () {
                 // print(documentSnapshot.id);
                 // updateDoc(documentSnapshot.id);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditProduct(documentSnapshot)));
+                if (user!.uid == documentSnapshot['userId']) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditProduct(documentSnapshot)));
+                }
               },
               icon: Icon(Icons.create)),
           IconButton(

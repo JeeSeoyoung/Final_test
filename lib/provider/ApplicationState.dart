@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shrine/firebase_options.dart';
 import 'package:shrine/services/firebase_auth_methods.dart';
 
-enum Like { liked }
+enum Like { like, dislike, unknown }
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
@@ -21,8 +21,19 @@ class ApplicationState extends ChangeNotifier {
   bool get loggedIn => _loggedIn;
 
   // StreamSubscription<QuerySnapshot>? _
-  int _liked = 0;
-  int get liked => _liked;
+  int _likeCount = 0;
+  int get likeCount => _likeCount;
+  Like _like = Like.unknown;
+  StreamSubscription<DocumentSnapshot>? _likeSubscription;
+  Like get like => _like;
+  // set Like(Like like) {
+  //   final likeDoc = FirebaseFirestore.instance
+  //       .collection('productDetail')
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .collection('likedList')
+  //       .doc(FirebaseAuth.instance.currentUser!.uid);
+  // }
+
   StreamSubscription<QuerySnapshot>? _productDetailSubscription;
   List<ProductDetail> _productDetail = [];
   List<ProductDetail> get productDtail => _productDetail;
@@ -31,17 +42,17 @@ class ApplicationState extends ChangeNotifier {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
 
-    Future downloadUrl() async {
+    Future DownloadUrl() async {
       // defaultIMG.png
       String path;
-      String imageUrl;
+      String profileUrl;
       if (FirebaseAuth.instance.currentUser!.isAnonymous == false) {
         path = 'profilepic.jpg';
       } else {
         path = 'userImage/defaultIMG.png';
       }
       Reference ref = FirebaseStorage.instance.ref().child(path);
-      imageUrl = await ref.getDownloadURL();
+      profileUrl = await ref.getDownloadURL();
       notifyListeners();
     }
 

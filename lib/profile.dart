@@ -25,117 +25,19 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // FirebaseStorage storage = FirebaseStorage.instance;
-
-  // Future<void> _upload(String inpuSource) async {
-  //   final picker = ImagePicker();
-  //   XFile? pickedImage;
-  //   try {
-  //     pickedImage = await picker.pickImage(
-  //         source:
-  //             inpuSource == 'camera' ? ImageSource.camera : ImageSource.gallery,
-  //         maxWidth: 1920);
-
-  //     final String fileName = path.basename(pickedImage!.path);
-  //     File imageFile = File(pickedImage.path);
-
-  //     try {
-  //       await storage.ref(fileName).putFile(
-  //             imageFile,
-  //           );
-  //       setState(() {});
-  //     } on FirebaseException catch (error) {
-  //       if (kDebugMode) {
-  //         print(error);
-  //       }
-  //     }
-  //   } catch (err) {
-  //     if (kDebugMode) {
-  //       print(err);
-  //     }
-  //   }
-  // }
-
-  // Future<List<Map<String, dynamic>>> _loadImages() async {
-  //   List<Map<String, dynamic>> files = [];
-
-  //   final ListResult result = await storage.ref().list();
-  //   final List<Reference> allFiles = result.items;
-
-  //   await Future.forEach<Reference>(allFiles, (file) async {
-  //     final String fileUrl = await file.getDownloadURL();
-  //     final FullMetadata fileMeta = await file.getMetadata();
-  //     files.add({
-  //       "url": fileUrl,
-  //       "path": file.fullPath,
-  //       "uploaded_by": fileMeta.customMetadata?['uploaded_by'] ?? 'Nobody',
-  //       "description":
-  //           fileMeta.customMetadata?['description'] ?? 'No description'
-  //     });
-  //   });
-
-  //   return files;
-  // }
-
-  // // Delete the selected image
-  // // This function is called when a trash icon is pressed
-  // Future<void> _delete(String ref) async {
-  //   await storage.ref(ref).delete();
-  //   // Rebuild the UI
-  //   setState(() {});
-  // }
-  // FirebaseAuth auth = FirebaseAuth.instance;
   final user = FirebaseAuth.instance.currentUser;
-  String imageUrl = '';
-  // FirebaseStorage storage = FirebaseStorage.instance;
-  // File? _photo;
-  // final ImagePicker _picker = ImagePicker();
-
-  // Future imgFromGallery() async {
-  //   final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-
-  //   setState(() {
-  //     if (PickedFile != null) {
-  //       _photo = File(pickedFile.path);
-  //       uploadFile();
-  //     } else {
-  //       print('no image selected');
-  //     }
-  //   });
-  // }
-
-  // Future uploadFile() async {
-  //   if (_photo == null) return;
-  //   final fileName = basename(_photo!.path);
-  //   final destination = 'files/$fileName';
-
-  //   try {
-  //     final ref = FirebaseStorage.instance.ref(destination).child('file/');
-  //   } catch (e) {
-  //     print('error occured');
-  //   }
-  // }
-  void pickUploadImage() async {
-    final image = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 512,
-      maxHeight: 512,
-      imageQuality: 75,
-    );
-
-    Reference ref = FirebaseStorage.instance.ref().child("profilepic.jpg");
-
-    await ref.putFile(File(image!.path));
-    ref.getDownloadURL().then((value) {
-      print(value);
-      setState(() {
-        imageUrl = value;
-      });
-    });
-  }
+  String imageUrl =
+      'https://firebasestorage.googleapis.com/v0/b/final-test-1c6ad.appspot.com/o/userImage%2FdefaultIMG.png?alt=media&token=6f39aa6a-26b2-4c80-8c30-6f136428d00f';
+  bool isAnomy = true;
 
   @override
   Widget build(BuildContext context) {
+    if (user!.isAnonymous == false) {
+      setState(() {
+        imageUrl =
+            'https://firebasestorage.googleapis.com/v0/b/final-test-1c6ad.appspot.com/o/profilepic.jpg?alt=media&token=21c7275a-c051-4078-afa4-c6de297a5636';
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -152,26 +54,10 @@ class _ProfilePageState extends State<ProfilePage> {
           padding: const EdgeInsets.symmetric(vertical: 15.0),
           child: Column(
             children: [
-              //     IconButton(
-              //         onPressed: () {
-              //           _upload('gallery');
-              //         },
-              //         icon: Icon(Icons.camera)),
-
-              // Expanded(child: FutureBuilder(
-              //   future: _loadImages(),
-              //   builder: (context,
-              //     AsyncSnapshot
-              //   ),
-              // ))
-              imageUrl == ''
-                  ? IconButton(
-                      onPressed: () {
-                        pickUploadImage();
-                      },
-                      icon: Icon(Icons.person))
-                  : Image.network(imageUrl),
-
+              Image.network(imageUrl),
+              SizedBox(
+                height: 30,
+              ),
               Text(
                 '<${user!.uid}>',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -180,15 +66,31 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 15,
                 color: Colors.black,
               ),
-              Text('${user!.email}'),
-
-              Text('SeoYoung Jee'),
-              Text('I promise to take the test honestly before GOD .'),
-              // IconButton(
-              //     onPressed: () {
-              //       pickUploadImage();
-              //     },
-              //     icon: Icon(Icons.camera))
+              user!.isAnonymous == false
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${user!.email}'),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Text('SeoYoung Jee'),
+                        Text(
+                            'I promise to take the test honestly before GOD .'),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Anonymous'),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Text('SeoYoung Jee'),
+                        Text(
+                            'I promise to take the test honestly before GOD .'),
+                      ],
+                    ),
             ],
           ),
         ),

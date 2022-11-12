@@ -46,13 +46,17 @@ class LoginPage extends StatelessWidget {
 
   Future AddUser() async {
     final user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
+    String defaultUrl =
+        'https://firebasestorage.googleapis.com/v0/b/final-test-1c6ad.appspot.com/o/userImage%2FdefaultIMG.png?alt=media&token=6f39aa6a-26b2-4c80-8c30-6f136428d00f';
+    String profilePic = defaultUrl;
+    if (user!.isAnonymous == false) {
       // Name, email address, and profile photo URL
       Reference ref = FirebaseStorage.instance.ref().child('profilepic.jpg');
+      profilePic = await ref.getDownloadURL();
       final name = user.displayName;
       final email = user.email;
       final uid = user.uid;
+
       // final url = await ref.getDownloadURL();
       // final photoURL = await user.updatePhotoURL(url);
 
@@ -63,6 +67,7 @@ class LoginPage extends StatelessWidget {
         'email': email,
         'status_message': 'I promise to take the test honestly before GOD .',
         'uid': uid,
+        'profileUrl': profilePic,
         // 'photoURL': photoURL,
       };
 
@@ -72,6 +77,7 @@ class LoginPage extends StatelessWidget {
       final json = {
         'status_message': 'I promise to take the test honestly before GOD .',
         'uid': docUser.id,
+        'profileUrl': profilePic,
       };
       await docUser.set(json);
     }
