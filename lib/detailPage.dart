@@ -81,20 +81,7 @@ class DetailPage extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               // LikeButton(),
-                              Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.thumb_up,
-                                        color: Colors.red,
-                                      )),
-                                  Text(
-                                    '0',
-                                    style: TextStyle(color: Colors.red),
-                                  )
-                                ],
-                              )
+                              LikeButton()
                             ],
                           ),
                           Text(
@@ -137,31 +124,51 @@ class DetailPage extends StatelessWidget {
   }
 }
 
-// class LikeButton extends StatelessWidget {
-//   const LikeButton({
-//     Key? key,
-//     required this.onLike
-//   }) : super(key: key);
-//   final void Fuction(Like liked) onLike;
+class LikeButton extends StatefulWidget {
+  const LikeButton({
+    Key? key,
+  }) : super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       children: [
-//         IconButton(
-//             onPressed: () {},
-//             icon: Icon(
-//               Icons.thumb_up,
-//               color: Colors.red,
-//             )),
-//         Text(
-//           '0',
-//           style: TextStyle(color: Colors.red),
-//         )
-//       ],
-//     );
-//   }
-// }
+  @override
+  State<LikeButton> createState() => _LikeButtonState();
+}
+
+class _LikeButtonState extends State<LikeButton> {
+  int likeCount = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+            onPressed: () {
+              if (likeCount == 0) {
+                setState(() {
+                  likeCount++;
+                });
+                // likeCount++;
+                final snackBar = SnackBar(
+                  content: const Text('I LIKE IT!'),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              } else {
+                final snackBar = SnackBar(
+                  content: const Text('You can only do it once!'),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+            },
+            icon: Icon(
+              Icons.thumb_up,
+              color: Colors.red,
+            )),
+        Text(
+          likeCount.toString(),
+          style: TextStyle(color: Colors.red),
+        )
+      ],
+    );
+  }
+}
 
 class ModifiedTimestamp extends StatelessWidget {
   ModifiedTimestamp({

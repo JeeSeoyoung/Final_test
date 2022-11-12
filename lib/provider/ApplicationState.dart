@@ -110,12 +110,13 @@ class ApplicationState extends ChangeNotifier {
 }
 
 class ProductDetail {
-  late String productImgUrl;
-  late String productName;
-  late int price;
-  late String description;
-  late String userId;
-  late String docID;
+  final String productImgUrl;
+  final String productName;
+  final int price;
+  final String description;
+  final String userId;
+  final String docID;
+  final dynamic likes;
 
   ProductDetail({
     required this.productImgUrl,
@@ -124,33 +125,34 @@ class ProductDetail {
     required this.description,
     required this.userId,
     required this.docID,
+    this.likes,
   });
 
-  ProductDetail.fromSnapshot(DocumentSnapshot snapshot) {
-    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-    productImgUrl = data['ImgUrl'];
-    productName = data['name'];
-    price = data['price'];
-    description = data['description'];
-    userId = data['userId'];
-    docID = snapshot.id;
-  }
-  ProductDetail.fromMap(Map<String, dynamic> data) {
-    productImgUrl = data['ImgUrl'];
-    productName = data['name'];
-    price = data['price'];
-    description = data['description'];
-    userId = data['userId'];
-    docID = data[docID];
-  }
-  Map<String, dynamic> toSnapshot() {
-    return {
-      'userId': userId,
-      'name': productName,
-      'description': description,
-      'ImgUrl': productImgUrl,
-      'price': price,
-      docID: docID,
-    };
-  }
+  // ProductDetail.fromSnapshot(DocumentSnapshot snapshot) {
+  //   Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+  //   productImgUrl = data['ImgUrl'];
+  //   productName = data['name'];
+  //   price = data['price'];
+  //   description = data['description'];
+  //   userId = data['userId'];
+  //   docID = snapshot.id;
+  // }
+  // ProductDetail.fromMap(Map<String, dynamic> data) {
+  //   productImgUrl = data['ImgUrl'];
+  //   productName = data['name'];
+  //   price = data['price'];
+  //   description = data['description'];
+  //   userId = data['userId'];
+  //   docID = data[docID];
+  // }
+  // Map<String, dynamic> toSnapshot() {
+  //   return {
+  //     'userId': userId,
+  //     'name': productName,
+  //     'description': description,
+  //     'ImgUrl': productImgUrl,
+  //     'price': price,
+  //     docID: docID,
+  //   };
+  // }
 }
