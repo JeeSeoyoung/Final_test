@@ -32,17 +32,3 @@ void main() async {
     builder: ((context, child) => const ShrineApp()),
   ));
 }
-
-// class ApplicationState extends ChangeNotifier {
-//   ApplicationState() {
-//     init();
-//   }
-//   bool _loggedIn = false;
-//   bool get loggedIn => _loggedIn;
-
-//   Future<void> init() async {
-//     await Firebase.initializeApp(
-//       options: Defal
-//     );
-//   }
-// }

@@ -80,6 +80,7 @@ class DetailPage extends StatelessWidget {
                                 documentSnapshot['name'],
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
+                              // LikeButton(),
                               Row(
                                 children: [
                                   IconButton(
@@ -93,7 +94,7 @@ class DetailPage extends StatelessWidget {
                                     style: TextStyle(color: Colors.red),
                                   )
                                 ],
-                              ),
+                              )
                             ],
                           ),
                           Text(
@@ -117,6 +118,13 @@ class DetailPage extends StatelessWidget {
                           ModifiedTimestamp(documentSnapshot: documentSnapshot),
                         ],
                       ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: FloatingActionButton(
+                        onPressed: () {},
+                        child: Icon(Icons.add),
+                      ),
                     )
                   ],
                 ),
@@ -128,6 +136,32 @@ class DetailPage extends StatelessWidget {
     );
   }
 }
+
+// class LikeButton extends StatelessWidget {
+//   const LikeButton({
+//     Key? key,
+//     required this.onLike
+//   }) : super(key: key);
+//   final void Fuction(Like liked) onLike;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: [
+//         IconButton(
+//             onPressed: () {},
+//             icon: Icon(
+//               Icons.thumb_up,
+//               color: Colors.red,
+//             )),
+//         Text(
+//           '0',
+//           style: TextStyle(color: Colors.red),
+//         )
+//       ],
+//     );
+//   }
+// }
 
 class ModifiedTimestamp extends StatelessWidget {
   ModifiedTimestamp({

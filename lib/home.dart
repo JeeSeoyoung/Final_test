@@ -29,6 +29,11 @@ class HomePage extends StatelessWidget {
         title: const Text('Main'),
         actions: <Widget>[
           IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/wishlist');
+              },
+              icon: Icon(Icons.shopping_cart)),
+          IconButton(
             icon: const Icon(
               Icons.add,
               semanticLabel: 'Add',

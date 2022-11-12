@@ -20,6 +20,7 @@ import 'profile.dart';
 import 'signUp.dart';
 import 'search.dart';
 import 'addProduct.dart';
+import 'wishlist.dart';
 
 // TODO: Convert ShrineApp to stateful widget (104)
 class ShrineApp extends StatelessWidget {
@@ -37,7 +38,8 @@ class ShrineApp extends StatelessWidget {
         '/signUp': (BuildContext context) => const SignUpPage(),
         '/Search': (BuildContext context) => const SearchPage(),
         '/add': (BuildContext context) => const AddProduct(),
-        '/profile': (BuildContext context) => const ProfilePage()
+        '/profile': (BuildContext context) => const ProfilePage(),
+        '/wishlist': (BuildContext context) => const WishListPage(),
         // TODO: Make currentCategory field take _currentCategory (104)
         // TODO: Pass _currentCategory for frontLayer (104)
         // TODO: Change backLayer field value to CategoryMenuPage (104)
