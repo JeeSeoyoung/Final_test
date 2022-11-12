@@ -110,7 +110,7 @@ class DetailPage extends StatelessWidget {
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton(
                         onPressed: () {},
-                        child: Icon(Icons.add),
+                        child: Icon(Icons.shopping_cart),
                       ),
                     )
                   ],
